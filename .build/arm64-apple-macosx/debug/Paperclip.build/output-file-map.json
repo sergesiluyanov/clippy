@@ -1,0 +1,61 @@
+{
+  "": {
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/master.swiftdeps"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/AppDelegate.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/AppDelegate.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/AppDelegate.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/AppDelegate~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/AppDelegate.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/AppDelegate.dia"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/ClippyShape.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyShape.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyShape.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyShape~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyShape.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyShape.dia"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/ClippyView.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyView.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyView.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyView~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyView.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/ClippyView.dia"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/Quips.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/Quips.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/Quips.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/Quips~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/Quips.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/Quips.dia"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/SpeechBubble.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/SpeechBubble.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/SpeechBubble.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/SpeechBubble~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/SpeechBubble.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/SpeechBubble.dia"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/TaskStore.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TaskStore.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TaskStore.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TaskStore~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TaskStore.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TaskStore.dia"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/TasksWindowView.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TasksWindowView.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TasksWindowView.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TasksWindowView~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TasksWindowView.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/TasksWindowView.dia"
+  },
+  "/Users/sergeysiluyanov/paperclip/Sources/Paperclip/main.swift": {
+    "dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/main.d",
+    "object": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/main.swift.o",
+    "swiftmodule": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/main.swiftdeps",
+    "diagnostics": "/Users/sergeysiluyanov/paperclip/.build/arm64-apple-macosx/debug/Paperclip.build/main.dia"
+  }
+}
