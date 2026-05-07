@@ -6,12 +6,105 @@ struct Task: Identifiable, Codable, Equatable, Hashable {
     var title: String
     var createdAt: Date
     var done: Bool
+    /// Optional deadline.  `nil` means "no specific date".
+    var deadline: Date?
 
-    init(id: UUID = UUID(), title: String, createdAt: Date = Date(), done: Bool = false) {
+    init(id: UUID = UUID(),
+         title: String,
+         createdAt: Date = Date(),
+         done: Bool = false,
+         deadline: Date? = nil) {
         self.id = id
         self.title = title
         self.createdAt = createdAt
         self.done = done
+        self.deadline = deadline
+    }
+
+    // MARK: - Deadline helpers
+
+    var isOverdue: Bool {
+        guard let d = deadline, !done else { return false }
+        return d < Date()
+    }
+
+    /// True when the deadline is set and falls within the next 24 hours
+    /// (and is not already overdue).
+    var isDueSoon: Bool {
+        guard let d = deadline, !done, !isOverdue else { return false }
+        return d.timeIntervalSinceNow < 24 * 60 * 60
+    }
+
+    /// Short human-readable label for the deadline ("сегодня",
+    /// "завтра 18:00", "через 3 дня", "просрочено на 2 дня").
+    var deadlineLabel: String? {
+        guard let d = deadline else { return nil }
+        return Self.relativeFormatter.relative(to: d)
+    }
+
+    private static let relativeFormatter = TaskDeadlineFormatter()
+}
+
+/// Formats a deadline as a short, friendly Russian phrase.
+struct TaskDeadlineFormatter {
+    private let calendar = Calendar.current
+
+    private let timeFmt: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ru_RU")
+        f.dateFormat = "HH:mm"
+        return f
+    }()
+
+    private let dateFmt: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ru_RU")
+        f.dateFormat = "d MMM"
+        return f
+    }()
+
+    func relative(to deadline: Date, now: Date = Date()) -> String {
+        let isOverdue = deadline < now
+        let dayDiff = daysBetween(now, deadline)
+
+        let timePart = " " + timeFmt.string(from: deadline)
+
+        switch (isOverdue, dayDiff) {
+        case (false, 0):
+            return "сегодня" + timePart
+        case (false, 1):
+            return "завтра" + timePart
+        case (false, 2...6):
+            return "через \(dayDiff) \(dayWord(dayDiff))"
+        case (false, _):
+            return "до " + dateFmt.string(from: deadline)
+        case (true, 0):
+            return "просрочено сегодня"
+        case (true, -1):
+            return "просрочено вчера"
+        case (true, -6...(-2)):
+            let d = -dayDiff
+            return "просрочено \(d) \(dayWord(d)) назад"
+        case (true, _):
+            return "просрочено " + dateFmt.string(from: deadline)
+        }
+    }
+
+    private func daysBetween(_ a: Date, _ b: Date) -> Int {
+        let aDay = calendar.startOfDay(for: a)
+        let bDay = calendar.startOfDay(for: b)
+        return calendar.dateComponents([.day], from: aDay, to: bDay).day ?? 0
+    }
+
+    private func dayWord(_ n: Int) -> String {
+        let mod10 = n % 10
+        let mod100 = n % 100
+        if mod100 >= 11 && mod100 <= 14 { return "дней" }
+        switch mod10 {
+        case 1:           return "день"
+        case 2, 3, 4:     return "дня"
+        default:          return "дней"
+        }
     }
 }
 
@@ -40,11 +133,26 @@ final class TaskStore: ObservableObject {
     }
 
     var pending: [Task] { tasks.filter { !$0.done } }
+    var overdue: [Task] { pending.filter { $0.isOverdue } }
+    var dueSoon: [Task] { pending.filter { $0.isDueSoon } }
 
-    func add(_ title: String) {
+    /// Pending tasks sorted: overdue first (oldest deadline first), then
+    /// other dated tasks by deadline ascending, then undated.
+    var pendingSorted: [Task] {
+        pending.sorted { lhs, rhs in
+            switch (lhs.deadline, rhs.deadline) {
+            case let (l?, r?): return l < r
+            case (nil, _?):    return false
+            case (_?, nil):    return true
+            case (nil, nil):   return lhs.createdAt < rhs.createdAt
+            }
+        }
+    }
+
+    func add(_ title: String, deadline: Date? = nil) {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
-        tasks.append(Task(title: trimmed))
+        tasks.append(Task(title: trimmed, deadline: deadline))
         save()
     }
 
