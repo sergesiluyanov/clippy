@@ -19,7 +19,39 @@
 - macOS 13 (Ventura) или новее
 - Swift 5.9+ (входит в Xcode Command Line Tools, `xcode-select --install`)
 
-## Запуск
+## Установка как обычного приложения
+
+Самый удобный путь — собрать `.app`-бандл и закинуть в `/Applications`:
+
+```bash
+./scripts/build-app.sh        # → dist/Paperclip.app
+open dist/                    # перетащи Paperclip.app в /Applications
+```
+
+Скрипт сам поднимает release-сборку, кладёт бинарь в правильную структуру
+(`Paperclip.app/Contents/MacOS`), генерирует иконку, создаёт `.icns` и
+ad-hoc подписывает бандл.  После этого Paperclip — нормальное приложение
+macOS: запускается двойным кликом, видно в Spotlight.
+
+> Поскольку приложение **не нотаризовано** Apple, при первом запуске
+> macOS покажет предупреждение «приложение от неустановленного
+> разработчика». Кликни правой кнопкой → «Открыть» (один раз), либо
+> заранее сними карантин:
+> ```bash
+> xattr -dr com.apple.quarantine /Applications/Paperclip.app
+> ```
+
+### DMG для распространения
+
+```bash
+./scripts/build-app.sh && ./scripts/make-dmg.sh
+# → dist/Paperclip-<version>.dmg
+```
+
+DMG содержит сам `Paperclip.app` и symlink на `/Applications`, чтобы
+можно было перетащить иконку drag-and-drop.
+
+## Запуск из исходников (без бандла)
 
 ```bash
 swift run -c release Paperclip
@@ -49,15 +81,11 @@ swift run -c release Paperclip
 
 ## Чтобы запускался при логине
 
-Самый простой способ — собрать релиз и добавить бинарник в «Системные настройки → Основные →
-Объекты входа»:
+После того как Paperclip.app лежит в `/Applications`:
 
-```bash
-swift build -c release
-open .build/release
-```
-
-Перетаскиваешь `Paperclip` в «Объекты входа», и он будет тихо стартовать вместе с системой.
+«Системные настройки → Общие → Объекты входа и расширения → +» —
+выбираешь `Paperclip.app`. С этого момента он будет тихо стартовать
+вместе с системой.
 
 ## Структура
 
@@ -71,4 +99,12 @@ Sources/Paperclip/
   TasksWindowView.swift # окно добавления и управления задачами
   TaskStore.swift       # хранение задач в JSON
   Quips.swift           # банк саркастичных фраз
+
+Resources/
+  Info.plist            # шаблон бандла (CFBundleIdentifier, LSUIElement и т.д.)
+
+scripts/
+  build-app.sh          # собирает release + упаковывает в .app + ad-hoc sign
+  make-dmg.sh           # упаковывает .app в drag-and-drop DMG
+  render-icon.swift     # рендерит 1024×1024 PNG для AppIcon.icns
 ```
