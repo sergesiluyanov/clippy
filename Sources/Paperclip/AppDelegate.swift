@@ -35,7 +35,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Floating Clippy window
 
     private func buildClippyWindow() {
-        let size = NSSize(width: 360, height: 380)
+        let size = NSSize(width: 360, height: 480)
         let screen = NSScreen.main?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
         let origin = NSPoint(x: screen.maxX - size.width - 24,
                              y: screen.minY + 24)

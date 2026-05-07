@@ -22,42 +22,55 @@ struct ClippyView: View {
     private let wireStroke = Color(red: 0.32, green: 0.28, blue: 0.43)
 
     var body: some View {
-        VStack(spacing: 4) {
-            // Speech bubble
-            ZStack {
-                if let text = viewModel.quip {
-                    SpeechBubble(text: text)
-                        .transition(.scale(scale: 0.7, anchor: .bottom)
-                            .combined(with: .opacity))
-                        .padding(.horizontal, 6)
+        // GeometryReader gives us the actual window/host size so we can
+        // anchor Clippy to the bottom and let the bubble grow UP into the
+        // free space, without ever asking NSHostingView for more height
+        // than the window has.
+        GeometryReader { geo in
+            VStack(spacing: 4) {
+                Spacer(minLength: 0)
+
+                // Speech bubble — height is fully driven by content.
+                ZStack {
+                    if let text = viewModel.quip {
+                        SpeechBubble(text: text)
+                            .transition(.scale(scale: 0.7, anchor: .bottom)
+                                .combined(with: .opacity))
+                            .padding(.horizontal, 6)
+                    }
                 }
-            }
-            .frame(maxWidth: .infinity, minHeight: 60, alignment: .bottom)
-            .animation(.spring(response: 0.35, dampingFraction: 0.75), value: viewModel.quip)
+                .frame(maxWidth: .infinity, alignment: .bottom)
+                // Animate both the appearing/disappearing and the size
+                // change when the quip itself is swapped for a longer or
+                // shorter line.
+                .animation(.spring(response: 0.38, dampingFraction: 0.78),
+                           value: viewModel.quip)
 
-            // The character.  Paper has been removed for now — we'll
-            // bring it back once the silhouette is right.
-            ZStack(alignment: .center) {
-                clippyBody
-                    .frame(width: bodyW, height: bodyH)
+                // The character.  Paper has been removed for now — we'll
+                // bring it back once the silhouette is right.
+                ZStack(alignment: .center) {
+                    clippyBody
+                        .frame(width: bodyW, height: bodyH)
 
-                // Eyes nestled in the head loop, dead-centre horizontally.
-                ClippyFace(
-                    blinkClosed: blinkClosed,
-                    mood: viewModel.mood,
-                    gazeOffset: gazeOffset
-                )
-                .offset(x: 0, y: -bodyH * 0.30)
+                    // Eyes nestled in the head loop, dead-centre horizontally.
+                    ClippyFace(
+                        blinkClosed: blinkClosed,
+                        mood: viewModel.mood,
+                        gazeOffset: gazeOffset
+                    )
+                    .offset(x: 0, y: -bodyH * 0.30)
+                }
+                // A barely-there idle wiggle.
+                .rotationEffect(.degrees(wiggle ? 2.5 : -2.5), anchor: .bottom)
+                .offset(y: bobUp ? -1.5 : 1.5)
+                .animation(.easeInOut(duration: 1.7).repeatForever(autoreverses: true), value: wiggle)
+                .animation(.easeInOut(duration: 2.3).repeatForever(autoreverses: true), value: bobUp)
+                .contentShape(Rectangle())
+                .onTapGesture { onClick() }
             }
-            // A barely-there idle wiggle.
-            .rotationEffect(.degrees(wiggle ? 2.5 : -2.5), anchor: .bottom)
-            .offset(y: bobUp ? -1.5 : 1.5)
-            .animation(.easeInOut(duration: 1.7).repeatForever(autoreverses: true), value: wiggle)
-            .animation(.easeInOut(duration: 2.3).repeatForever(autoreverses: true), value: bobUp)
-            .contentShape(Rectangle())
-            .onTapGesture { onClick() }
+            .padding(8)
+            .frame(width: geo.size.width, height: geo.size.height, alignment: .bottom)
         }
-        .padding(8)
         .onAppear {
             wiggle = true
             bobUp = true
